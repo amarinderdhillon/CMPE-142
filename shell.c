@@ -52,11 +52,11 @@ int main(int argc, char **argv)
         }
         else if(strncmp("cd", line, 2) ==0)
         {
-             char *gdir = linelen;
-             char *dir;
-             gdir = getcwd(buf, sizeof(buf));         
-             printf(gdir);
-             printf(chdir(gdir)); 
+            char *dir;
+            line = line+3;
+            printf(line); 
+            chdir(line); 
+            //printf('\n');   
         }
         else
         {
