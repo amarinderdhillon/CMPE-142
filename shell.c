@@ -41,6 +41,9 @@ int main(int argc, char **argv)
     size_t linesize = 0;
     ssize_t linelen;
     char buf[MAX];
+    char *path = "/bin/";
+    char command[20];
+    char program[50];
     pid_t pid = 0;
     //printf("shell> ");
     while((linelen = getline(&line, &linesize, stdin)) != -1)
@@ -52,7 +55,6 @@ int main(int argc, char **argv)
         }
         else if(strncmp("cd", line, 2) ==0)
         {
-            char *dir;
             line = line+3;
             printf(line); 
             chdir(line); 
@@ -61,12 +63,17 @@ int main(int argc, char **argv)
         else
         {
             fwrite(line, linelen, 1, stdout);
+            strncpy(command, line, (strlen(line)-1));
+            strcpy(program, path);
+            strcat(program, command);
             // fork
             pid = fork();
             // if child, exec
             if(pid == 0)
             {
-                 printf("CHILD PROCESS");
+                 execv(program, command);
+                 printf("CHILD PROCESS");          
+                
             }
             // if parent, wait
             else
